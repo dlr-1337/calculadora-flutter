@@ -1,5 +1,5 @@
 name: calculadora_flutter
-description: "A new Flutter project."
+description: "Calculadora simples com gerenciamento de estado em Flutter."
 publish_to: 'none'
 version: 0.1.0+1
 

@@ -1,11 +1,11 @@
 {
-    "name": "calculadora_flutter",
-    "short_name": "calculadora_flutter",
+    "name": "Calculadora",
+    "short_name": "Calculadora",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#ffffff",
+    "theme_color": "#2196f3",
+    "description": "Calculadora simples com as quatro operações matemáticas.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
