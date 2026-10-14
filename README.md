@@ -1,33 +1,60 @@
 # Calculadora Flutter
 
-Calculadora simples feita como atividade de gerenciamento de estado.
+**As quatro operações em uma interface simples — um estudo prático de entrada de dados e gerenciamento de estado.**
 
-**[Abrir a calculadora](https://dlr-1337.github.io/calculadora-flutter/)**
+Aplicativo acadêmico em Flutter e Dart. O usuário informa dois números, escolhe uma operação e recebe o resultado na mesma tela. A implementação usa os recursos básicos do Flutter, sem biblioteca externa de gerenciamento de estado.
+
+**[Abrir a demonstração web](https://dlr-1337.github.io/calculadora-flutter/)** · [Ler a implementação](lib/main.dart)
+
+## Funcionalidades
+
+| Recurso | Comportamento |
+| --- | --- |
+| Operações | Soma, subtração, multiplicação e divisão entre dois números. |
+| Entrada | Números negativos e decimais com vírgula ou ponto; espaços nas extremidades são ignorados. |
+| Validação | Mensagem para campos vazios ou valores que não podem ser convertidos em número. |
+| Divisão por zero | Mensagem específica, sem realizar a operação. |
+| Resultado | Atualização imediata na própria tela por `setState`. |
+| Interface | Widgets Material e área com rolagem para manter os controles acessíveis. |
+
+O objetivo é didático. Não há histórico de operações, armazenamento em banco, autenticação ou avaliação de expressões completas.
 
 ## Como usar
 
-1. Digite o primeiro e o segundo número.
-2. Clique em **Somar**, **Subtrair**, **Multiplicar** ou **Dividir**.
-3. Veja o resultado na mesma tela.
+Preencha **Primeiro número** e **Segundo número**. Depois, pressione **Somar**, **Subtrair**, **Multiplicar** ou **Dividir**.
 
-Os campos aceitam números negativos e decimais com vírgula ou ponto.
-Campos vazios, texto inválido e divisão por zero mostram uma mensagem.
-Os resultados usam a exibição padrão de números do Dart, como `5.0`.
+| Primeiro número | Segundo número | Operação | Saída esperada |
+| --- | --- | --- | --- |
+| `3,5` | `1.5` | Somar | `Resultado: 5.0` |
+| `-4` | `3` | Multiplicar | `Resultado: -12.0` |
+| `10` | `2` | Dividir | `Resultado: 5.0` |
+| `10` | `0` | Dividir | `Não é possível dividir por zero.` |
+| Campo vazio | `2` | Somar | `Digite dois números válidos.` |
 
-## Conceitos das aulas
+Os resultados usam a representação padrão de `double` do Dart, como `5.0`; o projeto não implementa aritmética decimal financeira.
 
-- **Aula 02:** números, operações e `switch`.
-- **Aula 03:** widgets e organização da interface.
-- **Aula 04:** `StatefulWidget` e atualização da tela com `setState`.
-- **Aula 11:** `TextField`, `TextEditingController`, `double.tryParse` e `dispose`.
+## Como o código funciona
 
-O código da calculadora está em [`lib/main.dart`](lib/main.dart), com comentários
-curtos em português. O aplicativo usa apenas os widgets e recursos básicos do
-Flutter e do Dart.
+```text
+TextField → TextEditingController → normalização de vírgula/ponto
+                                          ↓
+                                   double.tryParse
+                                          ↓
+                              validação → switch da operação
+                                          ↓
+                                   setState → resultado
+```
 
-## Executar no computador
+A implementação está concentrada em [`lib/main.dart`](lib/main.dart):
 
-Com o Flutter instalado:
+- `CalculadoraApp` configura o `MaterialApp`.
+- `Calculadora` é um `StatefulWidget`, pois o resultado muda durante o uso.
+- `_CalculadoraState.calcular` valida a entrada, seleciona a operação e atualiza a mensagem.
+- `dispose` libera os dois controladores quando a tela é encerrada.
+
+## Executar localmente
+
+Use uma instalação do Flutter que forneça um Dart compatível com `^3.13.0`, conforme [`pubspec.yaml`](pubspec.yaml). Para a versão web, é necessário um navegador compatível com o alvo escolhido.
 
 ```bash
 git clone https://github.com/dlr-1337/calculadora-flutter.git
@@ -36,17 +63,36 @@ flutter pub get
 flutter run -d chrome
 ```
 
-Para executar no Android, conecte um celular ou inicie um emulador e use
-`flutter run`.
+Para Android, conecte um dispositivo com depuração habilitada ou inicie um emulador:
+
+```bash
+flutter devices
+flutter run
+```
+
+Para executar a análise estática configurada no projeto:
+
+```bash
+flutter analyze
+```
 
 ## Publicação web
 
-A versão online é publicada no GitHub Pages pela branch `gh-pages`.
-Para gerar os arquivos da versão web:
+O fluxo documentado utiliza GitHub Pages com a branch `gh-pages`:
 
 ```bash
 flutter build web --release --base-href /calculadora-flutter/
 ```
 
-Os arquivos gerados em `build/web` são enviados à raiz da branch `gh-pages`,
-junto de um arquivo vazio chamado `.nojekyll`.
+Os arquivos gerados em `build/web` devem ficar na raiz de `gh-pages`, junto de um arquivo vazio `.nojekyll`. O `base-href` precisa corresponder ao caminho em que a aplicação será hospedada.
+
+## Conceitos trabalhados
+
+| Aula | Aplicação no projeto |
+| --- | --- |
+| 02 | Números, operações e seleção com `switch`. |
+| 03 | Composição e organização de widgets. |
+| 04 | `StatefulWidget` e atualização com `setState`. |
+| 11 | `TextField`, `TextEditingController`, conversão com `double.tryParse` e ciclo de vida com `dispose`. |
+
+O código mantém comentários curtos em português para facilitar a leitura de quem está começando com Flutter.
